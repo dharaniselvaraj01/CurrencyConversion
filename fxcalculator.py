@@ -17,15 +17,17 @@ class Conversion(ABC):
         pass
         
 
-
 class Unity(Conversion):
+
     def __init__(self,from_curr,to_curr):
         super().__init__(from_curr,to_curr)
 
     def calculate_conv_rate(self):
         return 1
 
+
 class NonCross(Conversion):
+
     def __init__(self,from_curr,to_curr):
         super().__init__(from_curr,to_curr)
 
@@ -35,8 +37,8 @@ class NonCross(Conversion):
         return fac
 
     
-
 class CrossConversion:
+
     def __init__(self,from_curr,to_curr):
         self.from_curr = from_curr
         self.to_curr = to_curr
@@ -49,6 +51,7 @@ class CrossConversion:
       
 
 class CrossUsd(CrossConversion):
+
     def __init__(self,from_curr,to_curr):
         super().__init__(from_curr,to_curr)
        
@@ -70,7 +73,6 @@ class CrossUsd(CrossConversion):
                 return fac1*fac2*fac3
 
         
-
 class CrossEur(CrossConversion):
     def __init__(self,from_curr,to_curr):
         super().__init__(from_curr,to_curr)
@@ -92,4 +94,11 @@ class CrossEur(CrossConversion):
             return fac1*fac2*fac3
 
 
-     
+class ConvertAmount:
+
+    def __init__(self,amt,fac):
+        self.amt = amt
+        self.fac = fac
+    
+    def convert_amt(self):
+        return self.amt*self.fac
