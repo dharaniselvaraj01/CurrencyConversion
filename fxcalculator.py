@@ -102,3 +102,4 @@ class ConvertAmount:
     
     def convert_amt(self):
         return self.amt*self.fac
+        

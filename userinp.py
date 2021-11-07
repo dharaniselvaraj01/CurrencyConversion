@@ -13,3 +13,5 @@ def get_input():
 
 def check_currency(curr1,curr2):
     return (curr1 in currency_list) and (curr2 in currency_list)
+
+    

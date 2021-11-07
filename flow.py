@@ -48,3 +48,5 @@ def run():
         except ValueError:
             print("Enter currency first(3letters) , followed by amount(positive number) eg: CAD 100:00")
             continue
+
+        
