@@ -14,21 +14,17 @@ def run():
             if valid_currency:
                 method = table[to_curr][from_curr]
                 if method == "1:1":
-                    unity = fxc.Unity(from_curr,to_curr)
-                    unity_rate = unity.calculate_conv_rate()
-                    converted_amt = fxc.ConvertAmount(amt,unity_rate).convert_amt()
+                    unity = fxc.UnityInstance(from_curr,to_curr,amt)
+                    converted_amt = unity.calculate_converted_amt()
                 elif method in non_crosslist:
-                    noncross = fxc.NonCross(from_curr,to_curr)
-                    noncross_rate = noncross.calculate_conv_rate() 
-                    converted_amt = fxc.ConvertAmount(amt,noncross_rate).convert_amt()
+                    noncross = fxc.NonCrossInstance(from_curr,to_curr,amt)
+                    converted_amt = noncross.calculate_converted_amt()
                 elif method == "USD":
-                    crossusd = fxc.CrossUsd(from_curr,to_curr)
-                    crossusd_rate = crossusd.calculate_conv_rate()
-                    converted_amt = fxc.ConvertAmount(amt,crossusd_rate).convert_amt()
+                    crossusd = fxc.CrossUsdInstance(from_curr,to_curr,amt)
+                    converted_amt = crossusd.calculate_converted_amt()
                 else:
-                    crosseur = fxc.CrossEur(from_curr,to_curr)
-                    crosseur_rate = crosseur.calculate_conv_rate()
-                    converted_amt = fxc.ConvertAmount(amt,crosseur_rate).convert_amt()
+                    crosseur = fxc.CrossEurInstance(from_curr,to_curr,amt)
+                    converted_amt = crosseur.calculate_converted_amt()
                 if to_curr == "JPY":
                     print(f"={to_curr} {converted_amt:.0f}")
                 else:
