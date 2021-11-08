@@ -1,5 +1,6 @@
 from abc import abstractmethod, ABC 
 import currencybt as cb
+import pandas as pd
 
 currency_list = cb.currency_list
 all_pair = cb.all_pair
@@ -17,7 +18,7 @@ class Conversion(ABC):
         pass
         
     def calculate_converted_amt(self):
-        return round(self.amt*self.calculate_conv_rate(),4) 
+        return round(self.amt*self.calculate_conv_rate(),2) 
 
 class Unity(Conversion):
 
@@ -141,3 +142,43 @@ class CrossEurInstance(CrossEur):
         crosseur = CrossEur(self.from_curr,self.to_curr,self.amt)
         converted_amt = crosseur.calculate_converted_amt()
         return converted_amt
+
+class MethodExecute(UnityInstance,NonCrossInstance,CrossUsdInstance,CrossEurInstance):
+    
+    def __init__(self,from_curr,to_curr,amt):
+        self.from_curr = from_curr
+        self.to_curr = to_curr
+        self.amt = amt
+
+    def method_picker(self):
+        
+        table = pd.read_csv('conv.txt',delimiter=',')
+        table.set_index('/',inplace=True)
+        non_crosslist = ["D","Inv"]
+        method = table[self.to_curr][self.from_curr]
+        
+        if method == "1:1":
+            return UnityInstance(self.from_curr,self.to_curr,self.amt).calculate_converted_amt()
+        elif method in non_crosslist:
+            return NonCrossInstance(self.from_curr,self.to_curr,self.amt).calculate_converted_amt()
+        elif method == "USD" : 
+            return CrossUsdInstance(self.from_curr,self.to_curr,self.amt).calculate_converted_amt()
+        else:
+            return CrossEurInstance(self.from_curr,self.to_curr,self.amt).calculate_converted_amt()
+
+
+class DisplayOutput:
+
+    def __init__(self,converted_amt,to_curr):
+        self.converted_amt = converted_amt
+        self.to_curr = to_curr
+
+    def check_jpy(self):
+        return self.to_curr == "JPY"
+
+    def __str__(self):
+        check_jpy = self.check_jpy()
+        if not check_jpy:
+            return f"={self.to_curr} {self.converted_amt:.2f}"
+        else:
+            return f"={self.to_curr} {self.converted_amt:.0f}"
