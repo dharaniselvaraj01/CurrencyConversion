@@ -1,4 +1,4 @@
-import pandas as pd 
+import pandas as pd
 import fxcalculator as fxc
 import userinp as ip
 

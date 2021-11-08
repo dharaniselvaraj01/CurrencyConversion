@@ -64,13 +64,13 @@ class CrossUsd(CrossConversion):
         check_pair = tuple(set(pair1).symmetric_difference(set(pair2)))
         if sorted(check_pair) == sorted(actual_pair) and pair2 in all_pair:
                 fac2 = super().calculate_crossconv_rate(pair2)
-                return fac1*fac2
+                return round(fac1*fac2,4)
         else:
                 pair2 = ('USD','EUR')
                 fac2 = super().calculate_crossconv_rate(pair2)
                 pair3 = ('EUR',self.to_curr)
                 fac3 = super().calculate_crossconv_rate(pair3)
-                return fac1*fac2*fac3
+                return round(fac1*fac2*fac3,4)
 
         
 class CrossEur(CrossConversion):
@@ -85,13 +85,14 @@ class CrossEur(CrossConversion):
         check_pair = tuple(set(pair1).symmetric_difference(set(pair2)))
         if sorted(check_pair) == sorted(actual_pair) and pair2 in all_pair:
             fac2 = super().calculate_crossconv_rate(pair2)
-            return fac1*fac2
+            return round(fac1*fac2,4)
         else:
             pair2 = ('EUR','USD')
             fac2 = super().calculate_crossconv_rate(pair2)
             pair3 = ('EUR',self.to_curr)
             fac3 = super().calculate_crossconv_rate(pair3)
-            return fac1*fac2*fac3
+            return round(fac1*fac2*fac3,4)
+                    
 
 
 class ConvertAmount:
@@ -101,5 +102,5 @@ class ConvertAmount:
         self.fac = fac
     
     def convert_amt(self):
-        return self.amt*self.fac
-        
+        return round(self.amt*self.fac,4)
+
